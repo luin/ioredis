@@ -119,6 +119,13 @@ export interface IClusterOptions {
   lazyConnect?: boolean;
 
   /**
+   * By default, if a node connection is closed, it will be removed from the cluster connection pool.
+   * Sometimes the node connection is closed due to idle timeout setting of redis server config, thus we can set this option
+   * to `true` to try to reconnect closed node that was once connected
+   */
+  reconnectClosedNodes?: boolean;
+
+  /**
    * Hostnames will be resolved to IP addresses via this function.
    * This is needed when the addresses of startup nodes are hostnames instead
    * of IPs.

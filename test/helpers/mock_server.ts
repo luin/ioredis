@@ -91,7 +91,7 @@ export default class MockServer extends EventEmitter {
             this.write(c, this.slotTable);
             return;
           }
-          const flags: Flags = {};
+          const flags: IFlags = {};
           const handlerResult = this.handler && this.handler(reply, c, flags);
           this.write(c, handlerResult);
           if (flags.disconnect) {

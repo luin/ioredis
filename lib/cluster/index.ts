@@ -109,6 +109,13 @@ class Cluster extends EventEmitter {
 
     this.connectionPool.on("-node", (redis, key) => {
       this.emit("-node", redis);
+      if (
+        this.options.reconnectClosedNodes &&
+        this.status === "ready" &&
+        redis.onceReady
+      ) {
+        this.connectionPool.findOrCreate(redis.config, redis.config.readOnly);
+      }
     });
     this.connectionPool.on("+node", (redis) => {
       this.emit("+node", redis);

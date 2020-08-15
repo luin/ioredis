@@ -289,6 +289,55 @@ describe("cluster:connect", function () {
     }
   });
 
+  it("Show reconnect closed nodes without draining cluster", function (done) {
+    const slotTable = [
+      [0, 12181, ["127.0.0.1", 30001]],
+      [12182, 12183, ["127.0.0.1", 30002]],
+      [12184, 16383, ["127.0.0.1", 30001]],
+    ];
+
+    new MockServer(30001, function (argv) {
+      if (argv[0] === "cluster" && argv[1] === "slots") {
+        return slotTable;
+      }
+    });
+
+    let server = new MockServer(30002, function (argv) {
+      if (argv[0] === "cluster" && argv[1] === "slots") {
+        return slotTable;
+      }
+    });
+
+    const cluster = new Cluster([{ host: "127.0.0.1", port: "30001" }], {
+      reconnectClosedNodes: true,
+    });
+
+    cluster.on("close", () => {
+      // If cluster is ever closed, fail the test
+      done(new Error("Cluster closed"));
+    });
+
+    // First time connection established to both nodes
+    cluster.get("foo", function () {
+      // Shutdown destination node
+      server.disconnect(function () {
+        // Query sent to closed node, trigger -node event, and node reset to wait status
+        cluster.get("foo", function () {
+          // Restart destination node
+          server = new MockServer(30002, function (argv) {
+            if (argv[0] === "cluster" && argv[1] === "slots") {
+              return slotTable;
+            }
+          });
+          // Seamlessly reconnect to the node without retry whole cluster.
+          cluster.get("foo", function () {
+            done();
+          });
+        });
+      });
+    });
+  });
+
   it("should using the specified password", function (done) {
     let cluster;
     const slotTable = [

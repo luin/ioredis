@@ -351,6 +351,7 @@ Redis.prototype.connect = function (callback) {
         }
 
         const connectionReadyHandler = function () {
+          _this.onceReady = true;
           _this.removeListener("close", connectionCloseHandler);
           resolve();
         };
