@@ -30,6 +30,32 @@ describe("tls option", () => {
         redis.on("end", () => done());
       });
     });
+
+    it("supports tls sni", (done) => {
+      let redis;
+
+      // @ts-ignore
+      const stub = sinon.stub(tls, "connect").callsFake((op) => {
+        // @ts-ignore
+        expect(op.host).to.eql("localhost");
+        // @ts-ignore
+        expect(op.servername).to.eql("localhost");
+        // @ts-ignore
+        expect(op.port).to.eql(6379);
+        const stream = net.createConnection(op);
+        stream.on("connect", (data) => {
+          stream.emit("secureConnect", data);
+        });
+        return stream;
+      });
+
+      redis = new Redis({ tlsSni: true });
+      redis.on("ready", () => {
+        redis.disconnect();
+        stub.restore();
+        redis.on("end", () => done());
+      });
+    });
   });
 
   describe("Sentinel", () => {

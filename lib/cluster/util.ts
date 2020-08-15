@@ -55,6 +55,8 @@ export function normalizeNodeOptions(
     }
     if (!options.host) {
       options.host = "127.0.0.1";
+    } else {
+      options.hostOriginal = options.host;
     }
 
     return options;

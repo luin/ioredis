@@ -732,6 +732,21 @@ Alternatively, specify the connection through a [`rediss://` URL](https://www.ia
 const redis = new Redis("rediss://redis.my-service.com");
 ```
 
+To enable the Server Name Indication TLS extension (SNI) set the `tlsSni` option to `true`.
+The name is guessed based on the hostname used when opening the stream.
+
+```javascript
+var redis = new Redis({
+  host: "localhost",
+  // optional TLS options (see above)
+  tls: {...},
+  tlsSni: true,
+});
+```
+
+This will basically copy the Redis hostname to `tls.servername` before the connection initialization,
+allowing each node of a Redis Cluster to possess its own SNI.
+
 <hr>
 
 ## Sentinel

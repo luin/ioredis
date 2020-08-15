@@ -199,7 +199,12 @@ describe("NAT", () => {
 
     cluster.on("ready", () => {
       expect(reset.secondCall.args[0]).to.deep.equal([
-        { host: "127.0.0.1", port: 30001, readOnly: false },
+        {
+          host: "127.0.0.1",
+          hostOriginal: "127.0.0.1",
+          port: 30001,
+          readOnly: false,
+        },
       ]);
       cluster.disconnect();
       done();
