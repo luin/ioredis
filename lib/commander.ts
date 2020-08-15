@@ -146,7 +146,9 @@ function generateFunction(_commandName?: string, _encoding?: string) {
     }
     if (this.options.keyPrefix) {
       options.keyPrefix = this.options.keyPrefix;
-    }
+    } else if (this.options.redisOptions && this.options.redisOptions.keyPrefix) {
+      options.keyPrefix = this.options.redisOptions.keyPrefix;
+    }  
 
     return this.sendCommand(new Command(commandName, args, options, callback));
   };
