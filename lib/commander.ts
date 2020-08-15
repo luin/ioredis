@@ -147,7 +147,9 @@ function generateFunction(_commandName?: string, _encoding?: string) {
     if (this.options.keyPrefix) {
       options.keyPrefix = this.options.keyPrefix;
     }
-
+    if (this.options.flattenArgs != null) {
+      options.flattenArgs = this.options.flattenArgs;
+    }
     return this.sendCommand(new Command(commandName, args, options, callback));
   };
 }

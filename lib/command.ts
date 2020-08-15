@@ -26,6 +26,7 @@ interface ICommandOptions {
    * Force the command to be readOnly so it will also execute on slaves
    */
   readOnly?: boolean;
+  flattenArgs?: boolean;
 }
 
 type ArgumentTransformer = (args: any[]) => any[];
@@ -184,7 +185,11 @@ export default class Command implements ICommand {
     this.replyEncoding = options.replyEncoding;
     this.errorStack = options.errorStack;
 
-    this.args = flatten(args);
+    if (options.flattenArgs === false) {
+      this.args = args;
+    } else {
+      this.args = flatten(args);
+    }
     this.callback = callback;
 
     this.initPromise();

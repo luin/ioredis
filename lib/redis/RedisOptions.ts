@@ -26,6 +26,7 @@ export interface IRedisOptions
   stringNumbers?: boolean;
   maxRetriesPerRequest?: number;
   maxLoadingRetryTime?: number;
+  flattenArgs?: boolean;
 }
 
 export const DEFAULT_REDIS_OPTIONS: IRedisOptions = {
@@ -67,4 +68,5 @@ export const DEFAULT_REDIS_OPTIONS: IRedisOptions = {
   stringNumbers: false,
   maxRetriesPerRequest: 20,
   maxLoadingRetryTime: 10000,
+  flattenArgs: true,
 };
