@@ -10,6 +10,7 @@ const debug = Debug("delayqueue");
  * @interface IDelayQueueOptions
  */
 export interface IDelayQueueOptions {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   callback?: Function;
   timeout: number;
 }
@@ -34,6 +35,7 @@ export default class DelayQueue {
    */
   public push(
     bucket: string,
+    // eslint-disable-next-line @typescript-eslint/ban-types
     item: Function,
     options: IDelayQueueOptions
   ): void {

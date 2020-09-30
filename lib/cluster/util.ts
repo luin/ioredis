@@ -30,6 +30,7 @@ export function nodeKeyToRedisOptions(nodeKey: NodeKey): IRedisOptions {
 }
 
 export function normalizeNodeOptions(
+  // eslint-disable-next-line @typescript-eslint/ban-types
   nodes: Array<string | number | object>
 ): IRedisOptions[] {
   return nodes.map((node) => {

@@ -68,7 +68,7 @@ commands.forEach(function (commandName) {
 
 Commander.prototype.call = generateFunction("utf8");
 Commander.prototype.callBuffer = generateFunction(null);
-// eslint-disable-next-line @typescript-eslint/camelcase
+// eslint-disable-next-line @typescript-eslint/naming-convention
 Commander.prototype.send_command = Commander.prototype.call;
 
 /**

@@ -921,13 +921,17 @@ Sometimes you may want to send a command to multiple nodes (masters or slaves) o
 ```javascript
 // Send `FLUSHDB` command to all slaves:
 const slaves = cluster.nodes("slave");
-Promise.all(slaves.map(node => node.flushdb()))
+Promise.all(slaves.map((node) => node.flushdb()));
 
 // Get keys of all the masters:
 const masters = cluster.nodes("master");
-Promise.all(masters.map(node => node.keys()).then(keys => {
-  // keys: [['key1', 'key2'], ['key3', 'key4']]
-});
+Promise.all(
+  masters
+    .map((node) => node.keys())
+    .then((keys) => {
+      // keys: [['key1', 'key2'], ['key3', 'key4']]
+    })
+);
 ```
 
 ### NAT Mapping

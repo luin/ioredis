@@ -28,14 +28,12 @@ rules:
   "@typescript-eslint/no-this-alias": 0
   "@typescript-eslint/no-parameter-properties": 0
   "@typescript-eslint/no-use-before-define": 0
+  "@typescript-eslint/ban-ts-comment": 0
   "@typescript-eslint/ban-ts-ignore": 0
   "@typescript-eslint/no-empty-function": 0
   "@typescript-eslint/no-unused-vars":
     - warn
     - args: none
-  "@typescript-eslint/interface-name-prefix":
-    - error
-    - "always"
 
 overrides:
   - files: ["{test,benchmarks}/**/*"]

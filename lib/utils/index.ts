@@ -43,7 +43,7 @@ export function bufferEqual(a: Buffer, b: Buffer): boolean {
  */
 export function convertBufferToString(value: any, encoding?: string) {
   if (value instanceof Buffer) {
-    return value.toString(encoding);
+    return value.toString(encoding as BufferEncoding);
   }
   if (Array.isArray(value)) {
     const length = value.length;

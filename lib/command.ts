@@ -137,11 +137,14 @@ export default class Command implements ICommand {
   public static setArgumentTransformer(
     name: string,
     func: ArgumentTransformer
-  ) {
+  ): void {
     this._transformer.argument[name] = func;
   }
 
-  public static setReplyTransformer(name: string, func: ReplyTransformer) {
+  public static setReplyTransformer(
+    name: string,
+    func: ReplyTransformer
+  ): void {
     this._transformer.reply[name] = func;
   }
 
@@ -244,7 +247,7 @@ export default class Command implements ICommand {
    * @memberof Command
    */
   private _iterateKeys(
-    transform: Function = (key) => key
+    transform: (any) => any = (key) => key
   ): Array<string | Buffer> {
     if (typeof this.keys === "undefined") {
       this.keys = [];
@@ -338,6 +341,7 @@ export default class Command implements ICommand {
    * @returns {Function} A funtion to transform and resolve a value
    * @memberof Command
    */
+  // eslint-disable-next-line @typescript-eslint/ban-types
   private _convertValue(resolve: Function): (result: any) => void {
     return (value) => {
       try {

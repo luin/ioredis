@@ -18,7 +18,7 @@ describe("cluster", function () {
     });
 
     const cluster = new Cluster([{ host: "127.0.0.1", port: "30001" }]);
-    cluster.get("foo", "bar", function (err) {
+    (cluster as any).get("foo", "bar", function (err) {
       expect(called).to.eql(true);
       expect(err.message).to.match(/Wrong arguments count/);
       cluster.disconnect();
@@ -42,7 +42,7 @@ describe("cluster", function () {
     });
 
     const cluster = new Cluster([{ host: "127.0.0.1", port: "30001" }]);
-    cluster.get("foo", function (err, result) {
+    (cluster as any).get("foo", function (err, result) {
       expect(result).to.eql("bar");
       cluster.disconnect();
       done();
@@ -148,7 +148,7 @@ describe("cluster", function () {
         const cluster = new Cluster([{ host: "127.0.0.1", port: "30001" }]);
         cluster.on("ready", function () {
           const stub = sinon.stub(utils, "sample").throws("sample is called");
-          cluster.get("foo", function (err, res) {
+          (cluster as any).get("foo", function (err, res) {
             stub.restore();
             expect(res).to.eql(30001);
             cluster.disconnect();
@@ -173,7 +173,7 @@ describe("cluster", function () {
             expect(from).to.eql(1);
             return "127.0.0.1:30003";
           });
-          cluster.get("foo", function (err, res) {
+          (cluster as any).get("foo", function (err, res) {
             stub.restore();
             expect(res).to.eql(30003);
             cluster.disconnect();
@@ -188,7 +188,7 @@ describe("cluster", function () {
         });
         cluster.on("ready", function () {
           const stub = sinon.stub(utils, "sample").throws("sample is called");
-          cluster.set("foo", "bar", function (err, res) {
+          (cluster as any).set("foo", "bar", function (err, res) {
             stub.restore();
             expect(res).to.eql(30001);
             cluster.disconnect();
@@ -202,15 +202,15 @@ describe("cluster", function () {
           scaleReads: "slave",
         });
         cluster.on("ready", function () {
-          const redis: Redis = cluster;
-          redis.defineCommand("test", {
+          const redis = cluster;
+          (cluster as any).defineCommand("test", {
             numberOfKeys: 1,
             lua: "return {KEYS[1],ARGV[1],ARGV[2]}",
             readOnly: true,
           });
 
           const stub = sinon.stub(utils, "sample").returns("127.0.0.1:30003");
-          redis.test("k1", "a1", "a2", function (err, result) {
+          (cluster as any).test("k1", "a1", "a2", function (err, result) {
             stub.restore();
             expect(stub.callCount).to.eql(1);
             // because of the beforeEach handler this will be the port of the slave called
@@ -242,7 +242,7 @@ describe("cluster", function () {
             expect(from).to.eql(1);
             return "127.0.0.1:30003";
           });
-          cluster.hgetall("foo", function (err, res) {
+          (cluster as any).hgetall("foo", function (err, res) {
             stub.restore();
             expect(res).to.eql(30004);
             cluster.disconnect();
@@ -262,7 +262,7 @@ describe("cluster", function () {
         });
         cluster.on("ready", function () {
           const stub = sinon.stub(utils, "sample").throws("sample is called");
-          cluster.set("foo", "bar", function (err, res) {
+          (cluster as any).set("foo", "bar", function (err, res) {
             stub.restore();
             expect(res).to.eql(30001);
             cluster.disconnect();
@@ -287,7 +287,7 @@ describe("cluster", function () {
             expect(from).to.eql(undefined);
             return "127.0.0.1:30003";
           });
-          cluster.get("foo", function (err, res) {
+          (cluster as any).get("foo", function (err, res) {
             stub.restore();
             expect(res).to.eql(30003);
             cluster.disconnect();
@@ -323,7 +323,7 @@ describe("cluster", function () {
 
       const cluster = new Cluster([{ host: "127.0.0.1", port: "30001" }]);
       // Make sure 30001 has been connected
-      cluster.get("foo", function () {
+      (cluster as any).get("foo", function () {
         expect(cluster.nodes()).to.have.lengthOf(3);
         expect(cluster.nodes("all")).to.have.lengthOf(3);
         expect(cluster.nodes("master")).to.have.lengthOf(2);
@@ -374,6 +374,7 @@ describe("cluster", function () {
           [0, 5460, ["127.0.0.1", 30003]],
           [5461, 10922, ["127.0.0.1", 30002]],
         ];
+        // @ts-ignore
         cluster.refreshSlotsCache(function () {
           cluster.once("-node", function (removed) {
             expect(removed.options.port).to.eql(30001);
@@ -414,7 +415,7 @@ describe("cluster", function () {
 
       let setCommandHandled = false;
       cluster.on("ready", function () {
-        cluster.set("foo", "bar", function () {
+        (cluster as any).set("foo", "bar", function () {
           setCommandHandled = true;
         });
         cluster.quit(function (err, state) {

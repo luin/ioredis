@@ -53,11 +53,11 @@
     "@types/lodash.defaults": "^4.2.6",
     "@types/lodash.flatten": "^4.4.6",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^13.11.0",
+    "@types/node": "^14.11.2",
     "@types/redis-errors": "1.2.0",
     "@types/sinon": "^9.0.0",
-    "@typescript-eslint/eslint-plugin": "^2.26.0",
-    "@typescript-eslint/parser": "^2.26.0",
+    "@typescript-eslint/eslint-plugin": "^4.2.0",
+    "@typescript-eslint/parser": "^4.2.0",
     "bluebird": "^3.7.2",
     "chai": "^4.2.0",
     "cz-conventional-changelog": "^3.1.0",
@@ -69,8 +69,8 @@
     "pretty-quick": "^2.0.1",
     "server-destroy": "^1.0.1",
     "sinon": "^9.0.1",
-    "ts-node": "^8.8.1",
-    "typescript": "^3.8.3"
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
   },
   "engines": {
     "node": ">=6"

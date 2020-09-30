@@ -1,5 +1,9 @@
 import { NodeRole } from "./util";
 import { lookup } from "dns";
+import Redis from "../redis";
+import { Command } from "..";
+
+type RedisType = typeof Redis;
 
 export type DNSLookupFunction = (
   hostname: string,
@@ -50,7 +54,7 @@ export interface IClusterOptions {
    *
    * @default "master"
    */
-  scaleReads?: NodeRole | Function;
+  scaleReads?: NodeRole | ((nodes: RedisType[], cmd: Command) => RedisType);
 
   /**
    * When a MOVED or ASK error is received, client will redirect the

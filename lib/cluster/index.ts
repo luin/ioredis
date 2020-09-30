@@ -51,6 +51,7 @@ type ClusterStatus =
  */
 class Cluster extends EventEmitter {
   private options: IClusterOptions;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   private startupNodes: (string | number | object)[];
   private connectionPool: ConnectionPool;
   private slots: NodeKey[][] = [];
@@ -84,6 +85,7 @@ class Cluster extends EventEmitter {
    * @memberof Cluster
    */
   constructor(
+    // eslint-disable-next-line @typescript-eslint/ban-types
     startupNodes: (string | number | object)[],
     options: IClusterOptions = {}
   ) {
@@ -566,7 +568,6 @@ class Cluster extends EventEmitter {
     const ttl = {};
     const _this = this;
     if (!node && !command.__is_reject_overwritten) {
-      // eslint-disable-next-line @typescript-eslint/camelcase
       command.__is_reject_overwritten = true;
       const reject = command.reject;
       command.reject = function (err) {

@@ -91,7 +91,7 @@ export default class MockServer extends EventEmitter {
             this.write(c, this.slotTable);
             return;
           }
-          const flags: Flags = {};
+          const flags: IFlags = {};
           const handlerResult = this.handler && this.handler(reply, c, flags);
           this.write(c, handlerResult);
           if (flags.disconnect) {
@@ -116,7 +116,7 @@ export default class MockServer extends EventEmitter {
     enableDestroy(this.socket);
   }
 
-  disconnect(callback?: Function) {
+  disconnect(callback?: () => void) {
     // @ts-ignore
     this.socket.destroy(callback);
   }
