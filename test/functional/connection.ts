@@ -75,14 +75,16 @@ describe("connection", function () {
   });
 
   describe("connectTimeout", () => {
-    it("should close the connection when timeout", function (done) {
-      const redis = new Redis(6379, "192.0.0.0", {
+    it("should close the connection when network unreachable", function (done) {
+      const [host, port] = ["192.0.0.0", 6379];
+
+      const redis = new Redis(port, host, {
         connectTimeout: 1,
         retryStrategy: null,
       });
       let pending = 2;
       redis.on("error", function (err) {
-        expect(err.message).to.eql("connect ETIMEDOUT");
+        expect(err.message).to.eql(`connect ENETUNREACH ${host}:${port}`);
         if (!--pending) {
           done();
         }
