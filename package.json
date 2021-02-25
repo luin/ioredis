@@ -35,7 +35,7 @@
   "dependencies": {
     "cluster-key-slot": "^1.1.0",
     "debug": "^4.1.1",
-    "denque": "^1.1.0",
+    "denque": "^1.4.1",
     "lodash.defaults": "^4.2.0",
     "lodash.flatten": "^4.4.0",
     "p-map": "^2.1.0",
