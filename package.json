@@ -78,7 +78,7 @@
     "uuid": "^8.3.0"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=8"
   },
   "config": {
     "commitizen": {
