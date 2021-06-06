@@ -28,7 +28,10 @@ function findAutoPipeline(
   }
 
   // We have slot information, we can improve routing by grouping slots served by the same subset of nodes
-  return client.slots[calculateSlot(args[0])].join(",");
+  const prefixedKey = client.options.keyPrefix
+    ? `${client.options.keyPrefix}${args[0]}`
+    : args[0];
+  return client.slots[calculateSlot(prefixedKey)].join(",");
 }
 
 function executeAutoPipeline(client, slotKey: string) {

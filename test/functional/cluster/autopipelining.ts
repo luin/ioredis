@@ -30,6 +30,10 @@ describe("autoPipelining for cluster", function () {
       if (argv[0] === "get" && argv[1] === "foo6") {
         return "bar6";
       }
+
+      if (argv[0] === "get" && argv[1] === "baz:foo10") {
+        return "bar10";
+      }
     });
 
     new MockServer(30002, function (argv) {
@@ -61,6 +65,10 @@ describe("autoPipelining for cluster", function () {
 
       if (argv[0] === "get" && argv[1] === "foo5") {
         return "bar5";
+      }
+
+      if (argv[0] === "get" && argv[1] === "baz:foo1") {
+        return "bar1";
       }
 
       if (argv[0] === "evalsha") {
@@ -168,6 +176,23 @@ describe("autoPipelining for cluster", function () {
         cluster.get("foo1"),
       ])
     ).to.eql(["bar1", "bar5", "bar1", "bar5", "bar1"]);
+
+    cluster.disconnect();
+  });
+
+  it("should support building pipelines when a prefix is used", async () => {
+    const cluster = new Cluster(hosts, {
+      enableAutoPipelining: true,
+      keyPrefix: "baz:",
+    });
+    await new Promise((resolve) => cluster.once("connect", resolve));
+
+    await cluster.set("foo1", "bar1");
+    await cluster.set("foo10", "bar10");
+
+    expect(
+      await Promise.all([cluster.get("foo1"), cluster.get("foo10")])
+    ).to.eql(["bar1", "bar10"]);
 
     cluster.disconnect();
   });
