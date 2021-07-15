@@ -5,7 +5,7 @@ describe("ready_check", function () {
   it("should retry when redis is not ready", function (done) {
     const redis = new Redis({ lazyConnect: true });
 
-    sinon.stub(redis, "info").callsFake((callback) => {
+    sinon.stub(redis, "info").callsFake((_section, callback) => {
       callback(null, "loading:1\r\nloading_eta_seconds:7");
     });
     // @ts-ignore
@@ -28,7 +28,7 @@ describe("ready_check", function () {
       },
     });
 
-    sinon.stub(redis, "info").callsFake((callback) => {
+    sinon.stub(redis, "info").callsFake((_section, callback) => {
       callback(new Error("info error"));
     });
 
