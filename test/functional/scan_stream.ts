@@ -169,7 +169,9 @@ describe("*scanStream", function () {
             keys = keys.concat(data);
           });
           stream.on("error", function (err) {
-            expect(err.message).to.eql("Connection is closed.");
+            expect(err.message).to.eql(
+              "scanStream failed: Connection is closed."
+            );
             done();
           });
         }

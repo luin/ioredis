@@ -52,6 +52,7 @@ export default class ScanStream extends Readable {
 
     this.opt.redis[this.opt.command](args, (err, res) => {
       if (err) {
+        err.message = `${this.opt.command}Stream failed: ${err.message}`;
         this.emit("error", err);
         return;
       }

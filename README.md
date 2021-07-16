@@ -636,6 +636,10 @@ provides a streaming interface for the `SCAN` command to make things much easier
 const redis = new Redis();
 // Create a readable stream (object mode)
 const stream = redis.scanStream();
+// Danger: In case of error, if an "error" event listener is not attached an uncaughtException will be thrown.
+stream.on("error", (error) => {
+  console.log("stream failed with error", error);
+});
 stream.on("data", (resultKeys) => {
   // `resultKeys` is an array of strings representing key names.
   // Note that resultKeys may contain 0 keys, and that it will sometimes
