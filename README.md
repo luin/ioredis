@@ -721,6 +721,8 @@ the return value represents how long (in ms) to wait to reconnect. When the
 return value isn't a number, ioredis will stop trying to reconnect, and the connection
 will be lost forever if the user doesn't call `redis.connect()` manually.
 
+When `retryStrategy` is provided, errors do not emit.
+
 When reconnected, the client will auto subscribe to channels that the previous connection subscribed to.
 This behavior can be disabled by setting the `autoResubscribe` option to `false`.
 
