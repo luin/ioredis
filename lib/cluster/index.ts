@@ -500,7 +500,7 @@ class Cluster extends EventEmitter {
    */
   private refreshSlotsCache(callback?: CallbackFunction<void>): void {
     if (this.isRefreshing) {
-      if (typeof callback === "function") {
+      if (callback) {
         process.nextTick(callback);
       }
       return;
@@ -510,7 +510,7 @@ class Cluster extends EventEmitter {
     const _this = this;
     const wrapper = function (error?: Error) {
       _this.isRefreshing = false;
-      if (typeof callback === "function") {
+      if (callback) {
         callback(error);
       }
     };
@@ -519,7 +519,7 @@ class Cluster extends EventEmitter {
 
     let lastNodeError = null;
 
-    function tryNode(index) {
+    function tryNode(index: number) {
       if (index === nodes.length) {
         const error = new ClusterAllFailedError(
           "Failed to refresh slots cache.",
@@ -739,7 +739,7 @@ class Cluster extends EventEmitter {
     return command.promise;
   }
 
-  handleError(error, ttl, handlers) {
+  handleError(error: Error, ttl: { value?: any; }, handlers) {
     if (typeof ttl.value === "undefined") {
       ttl.value = this.options.maxRedirections;
     } else {
@@ -791,7 +791,7 @@ class Cluster extends EventEmitter {
     }
   }
 
-  getInfoFromNode(redis, callback) {
+  getInfoFromNode(redis, callback: CallbackFunction<void>) {
     if (!redis) {
       return callback(new Error("Node is disconnected"));
     }
@@ -815,7 +815,7 @@ class Cluster extends EventEmitter {
 
     duplicatedConnection.cluster(
       "slots",
-      timeout((err, result) => {
+      timeout((err: Error, result) => {
         duplicatedConnection.disconnect();
         if (err) {
           return callback(err);
@@ -913,7 +913,7 @@ class Cluster extends EventEmitter {
         return callback();
       }
 
-      let state;
+      let state: string;
       const lines = res.split("\r\n");
       for (let i = 0; i < lines.length; ++i) {
         const parts = lines[i].split(":");
