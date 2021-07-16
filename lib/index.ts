@@ -4,6 +4,8 @@ export { default } from "./redis";
 export { default as Cluster } from "./cluster";
 export { default as Command } from "./command";
 export { default as ScanStream } from "./ScanStream";
+export { default as RedisReadable } from "./streams/RedisReadable";
+export { default as RedisWritable } from "./streams/RedisWritable";
 export { default as Pipeline } from "./pipeline";
 export { default as AbstractConnector } from "./connectors/AbstractConnector";
 export {
