@@ -30,6 +30,7 @@ export interface IRedisOptions
   enableAutoPipelining?: boolean;
   autoPipeliningIgnoredCommands?: string[];
   maxScriptsCachingTime?: number;
+  sanitizeErrors?: boolean;
 }
 
 export const DEFAULT_REDIS_OPTIONS: IRedisOptions = {
